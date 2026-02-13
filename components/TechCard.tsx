@@ -120,7 +120,7 @@ export default function TechCard({ data }: TechCardProps) {
             )}
           </div>
 
-          <a
+          {data.link && <a
             href={data.link}
             target="_blank"
             rel="noreferrer"
@@ -131,7 +131,7 @@ export default function TechCard({ data }: TechCardProps) {
               size={12}
               className="text-slate-500 group-hover/btn:text-cyan-400 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-all"
             />
-          </a>
+          </a>}
         </div>
       </div>
     </div>

@@ -44,7 +44,7 @@ export default function ResourceCard({ data }: { data: any[] }) {
       </div>
 
       <div className="flex-1">
-        <h3 className="text-lg font-bold text-slate-200 group-hover:text-cyan-400 transition-colors line-clamp-2">
+        <h3 className="text-lg font-bold text-slate-200 group-hover:text-cyan-400 transition-colors">
           {title}
         </h3>
 

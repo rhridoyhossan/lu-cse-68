@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import TechCard from "@/components/TechCard";
@@ -16,6 +16,11 @@ export default function SectionTabs({
 
   const tabs = ["General", ...Object.keys(sections)];
 
+  useEffect(() => {
+    const saved = localStorage.getItem("activeTab");
+    if (saved && tabs.includes(saved)) setActiveTab(saved);
+  }, []);
+
   // Determine which data to show
   const currentData =
     activeTab === "General" ? general : sections[activeTab] || [];
@@ -23,6 +28,7 @@ export default function SectionTabs({
   const handleTabChange = (tab: string) => {
     if (tab === activeTab) return;
     setActiveTab(tab);
+    localStorage.setItem("activeTab", tab);
   };
 
   // Animation
@@ -71,7 +77,7 @@ export default function SectionTabs({
               <button
                 key={tab}
                 onClick={() => handleTabChange(tab)}
-                className={`tab-element opacity-0 px-4 py-3 rounded text-left text-sm font-bold border transition-all whitespace-nowrap flex items-center justify-between group ${
+                className={`tab-element cursor-pointer opacity-0 px-4 py-3 rounded text-left text-sm font-bold border transition-all whitespace-nowrap flex items-center justify-between group ${
                   activeTab === tab
                     ? "bg-cyan-950/40 text-cyan-400 border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.1)]"
                     : "bg-transparent border-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200"
@@ -111,10 +117,10 @@ export default function SectionTabs({
                 data={{
                   title: row[0],
                   category: "GENERAL",
+                  description: row[1],
                   imageUrl: row[2],
-                  description: row[3],
-                  link: row[4],
-                  author: row[5],
+                  link: row[3],
+                  author: row[4],
                   class: "notice-element opacity-0",
                 }}
               />
@@ -130,12 +136,12 @@ export default function SectionTabs({
                 {/* Icon */}
                 <div
                   className={`w-12 h-12 rounded flex items-center justify-center shrink-0 text-xl border ${
-                    row[1] === "Exam"
+                    row[2] === "Exam"
                       ? "bg-red-950/20 border-red-900/50 text-red-500"
                       : "bg-blue-950/20 border-blue-900/50 text-blue-500"
                   }`}
                 >
-                  {row[1] === "Exam" ? "⚠️" : "📝"}
+                  {row[2] === "Exam" ? "⚠️" : "📝"}
                 </div>
 
                 <div className="flex-1">
@@ -144,12 +150,10 @@ export default function SectionTabs({
                       {row[0]}
                     </h3>
                     <span className="text-xs text-slate-500 font-mono whitespace-nowrap ml-4">
-                      {row[2]}
+                      {row[3]}
                     </span>
                   </div>
-                  <p className="text-sm text-slate-400 mt-1 line-clamp-2">
-                    {row[3]}
-                  </p>
+                  <p className="text-sm text-slate-400 mt-1">{row[1]}</p>
                   <div className="mt-3 flex justify-between items-center gap-4 text-xs">
                     {row[4] ? (
                       <a
@@ -159,7 +163,9 @@ export default function SectionTabs({
                       >
                         View Document -&gt;
                       </a>
-                    ) : <div />}
+                    ) : (
+                      <div />
+                    )}
                     <span className="text-slate-600">
                       Added by {row[5] || "Admin"}
                     </span>
