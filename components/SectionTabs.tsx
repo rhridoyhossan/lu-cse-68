@@ -153,7 +153,9 @@ export default function SectionTabs({
                       {row[3]}
                     </span>
                   </div>
-                  <p className="text-sm text-slate-400 mt-1">{row[1]}</p>
+                  {row[1] && (
+                    <p className="text-sm text-slate-400 mt-1">{row[1]}</p>
+                  )}
                   <div className="mt-3 flex justify-between items-center gap-4 text-xs">
                     {row[4] ? (
                       <a
